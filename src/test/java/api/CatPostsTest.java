@@ -116,5 +116,4 @@ public class CatPostsTest {
         Response response = request.request(Method.GET, endpoint);
         return response.jsonPath();
     }
-
 }
