@@ -1,58 +1,42 @@
 package json.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
-    private Map<String,String> name;
-    private String _id;
-    private String firstName;
-    private String lastName;
+    @JsonProperty("_id")
+    private String id;
+    Map<String, String> name;
 
-    public User(Map<String,String> name, String _id) {
+    public User(String id, Map<String, String> name) {
+        this.id = id;
         this.name = name;
-        this._id = _id;
     }
+
     public User(){}
 
-    public String get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
-
-    public Map<String,String> getName() {
+    public Map<String, String> getName() {
         return name;
     }
 
-    public void setName(Map<String,String> name) {
+    public void setName(Map<String, String> name) {
         this.name = name;
     }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName() {
-        this.firstName = name.get("first");
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName() {
-        this.lastName = name.get("last");
-    }
-
     @Override
     public String toString() {
-        this.firstName = name.get("first");
-        this.lastName = name.get("last");
-        return firstName + " " + lastName;
+
+        return name.get("first")+ " " + name.get("last");
     }
 
     @Override
@@ -60,11 +44,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(_id, user._id);
+        return Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id);
+        return Objects.hash(id);
     }
 }

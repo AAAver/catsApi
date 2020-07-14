@@ -1,17 +1,19 @@
 package json.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 public class Post {
-    private String _id;
+    @JsonProperty("_id")
+    private String id;
     private String text;
     private String type;
     private User user;
     private int upvotes;
     private boolean userUpvoted;
 
-    public Post(String _id, String text, String type, User user, int upvotes, boolean userUpvoted) {
-        this._id = _id;
+    public Post(String id, String text, String type, User user, int upvotes, boolean userUpvoted) {
+        this.id = id;
         this.text = text;
         this.type = type;
         this.user = user;
@@ -28,12 +30,12 @@ public class Post {
         this.user = user;
     }
 
-    public String get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getText() {
@@ -73,12 +75,12 @@ public class Post {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return Objects.equals(_id, post._id);
+        return Objects.equals(id, post.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id);
+        return Objects.hash(id);
     }
 
     @Override
