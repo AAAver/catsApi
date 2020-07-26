@@ -14,18 +14,10 @@ public class Config {
 
     public static String getProperty(String key) {
         Properties prop = new Properties();
-        FileInputStream fis = null;
+        FileInputStream fis;
         try {
             fis = new FileInputStream(PROP_PATH);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
             prop.load(fis);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             fis.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,35 +29,21 @@ public class Config {
     public static void setProperty(String key, String value) {
         Properties prop = new Properties();
         FileOutputStream fos = null;
-        FileInputStream fis = null;
+        FileInputStream fis;
         try {
             fis = new FileInputStream(PROP_PATH);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
             prop.load(fis);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             fis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             fos = new FileOutputStream(PROP_PATH);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         prop.put(key, value);
         try {
             prop.store(fos, "hello");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            fos.close();
+            if(fos != null){
+                fos.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

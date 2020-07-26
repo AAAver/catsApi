@@ -8,13 +8,12 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.BasePage;
 
 import java.util.List;
 
-public class Mail extends BasePage {
+public class MailPage extends BasePage {
 
     @FindBy(css = "a[href*='0/#inbox']")
     private WebElement incomingMessages;
@@ -42,16 +41,16 @@ public class Mail extends BasePage {
 
     Actions a = new Actions(driver);
 
-    private Mail(WebDriver driver) {
+    private MailPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
 
-    public static Mail using(WebDriver driver) {
-        return new Mail(driver);
+    public static MailPage using(WebDriver driver) {
+        return new MailPage(driver);
     }
 
-    public Mail waitUntilInboxListIsChanged() {
+    public MailPage waitUntilInboxListIsChanged() {
         wait.until(ExpectedConditions
                 .numberOfElementsToBeMoreThan(By.cssSelector("[role='link'] [data-legacy-last-non-draft-message-id]"),
                         messageTitles.size()));
@@ -69,7 +68,7 @@ public class Mail extends BasePage {
         return count;
     }
 
-    public Mail sendMessageToMyself(String to, String title, String message) {
+    public MailPage sendMessageToMyself(String to, String title, String message) {
         String t = counter.getText();
         click(startNewMessage);
         a.sendKeys(messageTo, to)
@@ -88,7 +87,7 @@ public class Mail extends BasePage {
         return this;
     }
 
-    public Mail refresh(){
+    public MailPage refresh(){
         driver.navigate().refresh();
         return this;
     }

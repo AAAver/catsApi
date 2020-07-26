@@ -4,8 +4,8 @@ import config.Config;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.mail.Authorization;
-import pages.mail.Mail;
+import pages.mail.AuthorizationPage;
+import pages.mail.MailPage;
 import tests.BaseTest;
 
 public class TestIncoming extends BaseTest {
@@ -26,15 +26,15 @@ public class TestIncoming extends BaseTest {
         String password = Config.getProperty("password");
         String title = Config.getProperty("title");
 
-        Authorization.using(driver)
+        AuthorizationPage.using(driver)
                 .setAccount(account)
                 .submitAccount()
                 .setPassword(password)
                 .submitPassword();
 
-        int initialNumber = Mail.using(driver).getMessageCountByTitle(title);
+        int initialNumber = MailPage.using(driver).getMessageCountByTitle(title);
 
-        int afterNumber = Mail.using(driver)
+        int afterNumber = MailPage.using(driver)
                 .sendMessageToMyself(account, title, "")
                 .refresh()
                 .getMessageCountByTitle(title);
