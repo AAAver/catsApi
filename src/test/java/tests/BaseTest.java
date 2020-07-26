@@ -21,7 +21,6 @@ public class BaseTest {
         opt.addArguments("start-maximized");
         opt.merge(dcap);
         driver = new ChromeDriver(opt);
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get(baseUrl);
     }
     public WebDriver getDriver() {

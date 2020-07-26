@@ -2,7 +2,6 @@ package tests.smoke;
 
 import config.Config;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.mail.Authorization;
@@ -12,33 +11,35 @@ import tests.BaseTest;
 public class TestIncoming extends BaseTest {
 
     @BeforeMethod
-    void setup(){
+    void setup() {
         setUpDriver();
     }
 
-    @AfterMethod
-    void tearDown(){
-        driver.quit();
-    }
+//    @AfterMethod
+//    void tearDown(){
+//        driver.quit();
+//    }
 
     @Test(description = "Отправка письма")
-    public void sendMessageAndVerifyReceive() throws InterruptedException {
-        String account  = Config.getProperty("account");
+    public void sendMessageAndVerifyReceive() {
+        String account = Config.getProperty("account");
         String password = Config.getProperty("password");
         String title = Config.getProperty("title");
 
-        Authorization auth = new Authorization(driver);
-        auth.authorize(account, password);
+        Authorization.using(driver)
+                .setAccount(account)
+                .submitAccount()
+                .setPassword(password)
+                .submitPassword();
 
-        Mail mail = new Mail(driver);
-        int initialNumber = mail.getMessageCountByTitle(title);
+        int initialNumber = Mail.using(driver).getMessageCountByTitle(title);
 
-        mail.sendMessage(account, title, "");
-        Thread.sleep(2000);
-        driver.get(driver.getCurrentUrl());
+        int afterNumber = Mail.using(driver)
+                .sendMessageToMyself(account, title, "")
+                .refresh()
+                .getMessageCountByTitle(title);
 
-        int afterNumber = mail.getMessageCountByTitle(title);
-        Assert.assertEquals(initialNumber + 1,afterNumber);
+        Assert.assertEquals(afterNumber, initialNumber + 1);
     }
 
 
