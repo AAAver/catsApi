@@ -39,7 +39,8 @@ public class MailPage extends BasePage {
     @FindBy(xpath = "//*[@class='bsU']")
     private WebElement counter;
 
-    Actions a = new Actions(driver);
+    private Actions a = new Actions(driver);
+    private By messageTitlesBy = By.cssSelector("[role='link'] [data-legacy-last-non-draft-message-id]");
 
     private MailPage(WebDriver driver) {
         super(driver);
@@ -51,8 +52,9 @@ public class MailPage extends BasePage {
     }
 
     public MailPage waitUntilInboxListIsChanged() {
+
         wait.until(ExpectedConditions
-                .numberOfElementsToBeMoreThan(By.cssSelector("[role='link'] [data-legacy-last-non-draft-message-id]"),
+                .numberOfElementsToBeMoreThan(messageTitlesBy,
                         messageTitles.size()));
         return this;
     }
@@ -87,8 +89,4 @@ public class MailPage extends BasePage {
         return this;
     }
 
-    public MailPage refresh(){
-        driver.navigate().refresh();
-        return this;
-    }
 }

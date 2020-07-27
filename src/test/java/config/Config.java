@@ -23,7 +23,6 @@ public class Config {
             e.printStackTrace();
         }
         return prop.getProperty(key);
-
     }
 
     public static void setProperty(String key, String value) {
@@ -35,18 +34,11 @@ public class Config {
             prop.load(fis);
             fis.close();
             fos = new FileOutputStream(PROP_PATH);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        prop.put(key, value);
-        try {
+            prop.put(key, value);
             prop.store(fos, "hello");
-            if(fos != null){
-                fos.close();
-            }
+            fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }

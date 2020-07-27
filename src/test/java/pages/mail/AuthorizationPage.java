@@ -44,8 +44,9 @@ public class AuthorizationPage extends BasePage {
         return this;
     }
 
-    public void submitPassword(){
+    public MailPage submitPassword(){
         click(submitPassword);
+        return MailPage.using(driver);
     }
 
 }

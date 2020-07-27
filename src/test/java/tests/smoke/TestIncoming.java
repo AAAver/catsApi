@@ -2,6 +2,7 @@ package tests.smoke;
 
 import config.Config;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.mail.AuthorizationPage;
@@ -15,10 +16,10 @@ public class TestIncoming extends BaseTest {
         setUpDriver();
     }
 
-//    @AfterMethod
-//    void tearDown(){
-//        driver.quit();
-//    }
+    @AfterMethod
+    void tearDown(){
+        driver.quit();
+    }
 
     @Test(description = "Отправка письма")
     public void sendMessageAndVerifyReceive() {
@@ -26,18 +27,17 @@ public class TestIncoming extends BaseTest {
         String password = Config.getProperty("password");
         String title = Config.getProperty("title");
 
-        AuthorizationPage.using(driver)
-                .setAccount(account)
-                .submitAccount()
-                .setPassword(password)
-                .submitPassword();
+        MailPage mailPage = AuthorizationPage.using(driver)
+                            .setAccount(account)
+                            .submitAccount()
+                            .setPassword(password)
+                            .submitPassword();
 
-        int initialNumber = MailPage.using(driver).getMessageCountByTitle(title);
+        int initialNumber = mailPage.getMessageCountByTitle(title);
 
-        int afterNumber = MailPage.using(driver)
-                .sendMessageToMyself(account, title, "")
-                .refresh()
-                .getMessageCountByTitle(title);
+        mailPage.sendMessageToMyself(account, title, "");
+        mailPage.refresh();
+        int afterNumber = mailPage.getMessageCountByTitle(title);
 
         Assert.assertEquals(afterNumber, initialNumber + 1);
     }
